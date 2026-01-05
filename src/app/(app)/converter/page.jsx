@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Upload } from "lucide-react";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 
@@ -8,8 +8,12 @@ export default function Converter() {
   const [audio, setAudio] = useState(null);
   const [output, setOutput] = useState(null);
   const [loading, setLoading] = useState(false);
+  const ffmpegRef = useRef(null); // usa ref para persistir FFmpeg entre renders
 
-  const ffmpeg = createFFmpeg({ log: true });
+  // Inicializa FFmpeg apenas no cliente
+  useEffect(() => {
+    ffmpegRef.current = createFFmpeg({ log: true });
+  }, []);
 
   const handleFile = (e) => {
     setAudio(e.target.files[0]);
@@ -22,6 +26,7 @@ export default function Converter() {
     setLoading(true);
 
     try {
+      const ffmpeg = ffmpegRef.current;
       // carregar ffmpeg
       if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
