@@ -31,6 +31,11 @@ export default function Sidebar() {
         <Phone size={26} />
       </Link>
 
+      {/* NOVA PAGE DE CONVERSÃO */}
+      <Link href="/converter" className="p-3 rounded-xl hover:bg-neutral-800 transition">
+        <Workflow size={26} />
+      </Link>
+
       <Link href="/configuracoes" className="p-3 rounded-xl hover:bg-neutral-800 transition mt-auto">
         <Settings size={26} />
       </Link>
