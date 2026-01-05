@@ -7,7 +7,7 @@ export default function Converter() {
   const [audio, setAudio] = useState(null);
   const [output, setOutput] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [ffmpeg, setFFmpeg] = useState(null);
+  const [ffmpegModule, setFFmpegModule] = useState(null);
 
   const handleFile = (e) => {
     setAudio(e.target.files[0]);
@@ -20,14 +20,17 @@ export default function Converter() {
     setLoading(true);
 
     try {
-      // Importa FFmpeg dinamicamente apenas no cliente
-      if (!ffmpeg) {
-        const { createFFmpeg, fetchFile } = await import("@ffmpeg/ffmpeg");
-        const ffmpegInstance = createFFmpeg({ log: true });
-        setFFmpeg({ ffmpegInstance, fetchFile });
+      // IMPORTAÇÃO DINÂMICA do FFmpeg apenas no cliente
+      let ffmpegInstance, fetchFile;
+      if (!ffmpegModule) {
+        const ffmpeg = await import("@ffmpeg/ffmpeg");
+        ffmpegInstance = ffmpeg.createFFmpeg({ log: true });
+        fetchFile = ffmpeg.fetchFile;
+        setFFmpegModule({ ffmpegInstance, fetchFile });
+      } else {
+        ffmpegInstance = ffmpegModule.ffmpegInstance;
+        fetchFile = ffmpegModule.fetchFile;
       }
-
-      const { ffmpegInstance, fetchFile } = ffmpeg;
 
       if (!ffmpegInstance.isLoaded()) await ffmpegInstance.load();
 
