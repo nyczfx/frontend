@@ -32,7 +32,8 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL,
+        // redireciona corretamente no local e no Vercel
+        redirectTo: `${window.location.origin}/inicio`,
       },
     });
   }
