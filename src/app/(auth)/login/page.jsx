@@ -24,7 +24,7 @@ export default function LoginPage() {
       return;
     }
 
-    // redireciona direto para o login/ início do SaaS
+    // redireciona direto para o início do SaaS
     router.push("/inicio");
   }
 
@@ -32,7 +32,7 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL || "/login",
+        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL,
       },
     });
   }
