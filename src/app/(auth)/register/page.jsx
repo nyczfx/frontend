@@ -31,7 +31,7 @@ export default function RegisterPage() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/inicio`,
+        redirectTo: process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL || "/login",
       },
     });
   }
