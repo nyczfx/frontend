@@ -32,7 +32,7 @@ export default function Sidebar() {
       </Link>
 
       {/* NOVA PAGE DE CONVERSÃO */}
-      <Link href="/converter" className="p-3 rounded-xl hover:bg-neutral-800 transition">
+      <Link href="/conversor" className="p-3 rounded-xl hover:bg-neutral-800 transition">
         <Workflow size={26} />
       </Link>
 
@@ -43,3 +43,4 @@ export default function Sidebar() {
     </aside>
   );
 }
+
