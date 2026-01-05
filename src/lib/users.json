@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1767398567034,
+    "email": "na198947@gmail.com",
+    "password": "$2b$10$nqLTah1oSvy/vSAMELGQB./3n6w3Yr34eBMlKN3WwqeUSL/vzA3PK",
+    "createdAt": "2026-01-03T00:02:47.034Z"
+  },
+  {
+    "id": 1767398878954,
+    "email": "nielmatheus7@gmail.com",
+    "password": "$2b$10$/DTU20twNWU0qjVbPns9JO9f6ViGfeCz3XyMhPkpZza3o3YFAJ1TC",
+    "createdAt": "2026-01-03T00:07:58.954Z"
+  }
+]
