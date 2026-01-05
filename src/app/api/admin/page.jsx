@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/app/lib/supabase";
+import { supabase } from "../../../lib/supabase";
 import EnviosChart from "@/components/EnviosChart";
 
 import {
@@ -241,3 +241,4 @@ function Action({ title, desc }) {
     </div>
   );
 }
+
