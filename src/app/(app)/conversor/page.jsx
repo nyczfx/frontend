@@ -19,6 +19,7 @@ export default function ConversorPage() {
   const [playing, setPlaying] = useState(false);
 
   const audioRef = useRef(null);
+  const API = 'https://studdy-8yb8.onrender.com';
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -35,11 +36,8 @@ export default function ConversorPage() {
   const togglePlay = () => {
     if (!audioRef.current) return;
 
-    if (playing) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
+    if (playing) audioRef.current.pause();
+    else audioRef.current.play();
 
     setPlaying(!playing);
   };
@@ -68,7 +66,7 @@ export default function ConversorPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      const res = await fetch('/api/converter', {
+      const res = await fetch(`${API}/converter`, {
         method: 'POST',
         body: formData,
       });
