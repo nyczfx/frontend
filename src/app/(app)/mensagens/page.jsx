@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { User, Image as ImageIcon, Send, Plus, X } from "lucide-react"; // <- adicionei X
+import { User, Image as ImageIcon, Send, Plus, X } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -29,9 +29,11 @@ export default function MensagensPage() {
 
   const [chartData, setChartData] = useState([]);
 
+  const API = "https://studdy-8yb8.onrender.com";
+
   /* ===== CONTATOS ===== */
   useEffect(() => {
-    fetch("http://localhost:3001/contacts")
+    fetch(`${API}/contacts`)
       .then(res => res.json())
       .then(setContacts)
       .catch(() => setContacts([]));
@@ -41,7 +43,7 @@ export default function MensagensPage() {
   useEffect(() => {
     const loadMessages = async () => {
       try {
-        const msgs = await fetch("http://localhost:3000/api/dashboard/messages")
+        const msgs = await fetch(`${API}/messages`)
           .then(r => r.json());
 
         setMessages(msgs || []);
@@ -73,7 +75,7 @@ export default function MensagensPage() {
   const saveContact = () => {
     if (!newName || !newNumber) return alert("Preencha nome e número!");
 
-    fetch("http://localhost:3001/contacts", {
+    fetch(`${API}/contacts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -120,7 +122,7 @@ export default function MensagensPage() {
       fd.append("message", message);
       if (image) fd.append("image", image);
 
-      await fetch("http://localhost:3001/wa/send-message", {
+      await fetch(`${API}/wa/send-message`, {
         method: "POST",
         body: fd,
       });
