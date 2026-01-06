@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 
 export default function IntegracaoPage() {
@@ -6,13 +7,15 @@ export default function IntegracaoPage() {
   const [loading, setLoading] = useState(false);
   const [connected, setConnected] = useState(false);
 
+  const API = "https://studdy-8yb8.onrender.com";
+
   // --------------------------------------
   // 🔥 STATUS REAL DO BACKEND (POLLING)
   // --------------------------------------
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch("http://localhost:3001/wa/status");
+        const res = await fetch(`${API}/wa/status`);
         const data = await res.json();
 
         if (data?.status === "connected") {
@@ -37,10 +40,7 @@ export default function IntegracaoPage() {
     setQrCode(null);
 
     try {
-      const res = await fetch("http://localhost:3001/wa/qr", {
-        method: "GET",
-      });
-
+      const res = await fetch(`${API}/wa/qr`, { method: "GET" });
       const data = await res.json();
 
       if (data?.qr) {
