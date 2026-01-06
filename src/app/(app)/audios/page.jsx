@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { Upload, Trash2, User, Send, X, FileAudio, Play, Pause } from "lucide-react";
-
 import {
   LineChart,
   Line,
@@ -150,10 +149,10 @@ export default function AudiosPage() {
   };
 
   return (
-    <div className="p-8 text-white space-y-10">
+    <div className="min-h-screen bg-black text-white px-8 py-10 space-y-10">
 
-      {/* HEADER */}
-      <div>
+      {/* PAGE TITLE */}
+      <div className="space-y-2">
         <h1 className="text-3xl font-semibold">Áudios</h1>
         <p className="text-gray-400">
           Envie áudios naturais para seus contatos no WhatsApp
@@ -162,13 +161,10 @@ export default function AudiosPage() {
 
       {/* DASHBOARD */}
       <div className="space-y-8">
-
-        {/* GRÁFICO */}
         <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-2xl p-6">
           <h3 className="text-lg font-medium mb-4">
             Envios dos Últimos 30 Dias
           </h3>
-
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
@@ -207,106 +203,100 @@ export default function AudiosPage() {
       {/* CONTEÚDO */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-        <div className="space-y-8">
+        {/* UPLOAD DE ÁUDIO */}
+        <Card title="Upload de Áudio">
+          {!audioFile && (
+            <label className="flex flex-col items-center justify-center w-full h-40 bg-[#141414] border border-[#2a2a2a] border-dashed rounded-xl cursor-pointer hover:border-white/20 transition">
+              <Upload size={32} className="text-gray-400 mb-2" />
+              <span className="text-gray-400">Clique para selecionar um áudio</span>
+              <span className="text-xs text-gray-500 mt-1">MP3, WAV, OGG, OPUS</span>
+              <input type="file" accept="audio/*" hidden onChange={handleAudioUpload} />
+            </label>
+          )}
 
-          {/* UPLOAD DE ÁUDIO COM PLAYER */}
-          <Card title="Upload de Áudio">
-            {!audioFile && (
-              <label className="flex flex-col items-center justify-center w-full h-40 bg-[#141414] border border-[#2a2a2a] border-dashed rounded-xl cursor-pointer hover:border-white/20 transition">
-                <Upload size={32} className="text-gray-400 mb-2" />
-                <span className="text-gray-400">Clique para selecionar um áudio</span>
-                <span className="text-xs text-gray-500 mt-1">MP3, WAV, OGG, OPUS</span>
-                <input type="file" accept="audio/*" hidden onChange={handleAudioUpload} />
-              </label>
-            )}
+          {audioFile && audioPreview && (
+            <div className="relative mt-4 bg-[#141414] border border-[#2a2a2a] rounded-xl p-4 flex items-center gap-4">
+              <button
+                onClick={removeAudio}
+                className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                title="Remover áudio"
+              >
+                <X size={14} />
+              </button>
 
-            {audioFile && audioPreview && (
-              <div className="relative mt-4 bg-[#141414] border border-[#2a2a2a] rounded-xl p-4 flex items-center gap-4">
-                {/* BOTÃO REMOVER */}
-                <button
-                  onClick={removeAudio}
-                  className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center"
-                  title="Remover áudio"
-                >
-                  <X size={14} />
-                </button>
+              <button
+                onClick={togglePlay}
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-black hover:bg-gray-200 transition"
+              >
+                {playing ? <Pause size={20} /> : <Play size={20} />}
+              </button>
 
-                {/* PLAY */}
-                <button
-                  onClick={togglePlay}
-                  className="w-12 h-12 flex items-center justify-center rounded-full bg-white text-black hover:bg-gray-200 transition"
-                >
-                  {playing ? <Pause size={20} /> : <Play size={20} />}
-                </button>
-
-                {/* INFO */}
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{audioFile.name}</p>
-                  <p className="text-xs text-gray-400">Pré-visualização do áudio</p>
-                </div>
-
-                <FileAudio size={20} className="text-gray-500" />
-
-                <audio
-                  ref={audioRef}
-                  src={audioPreview}
-                  onEnded={() => setPlaying(false)}
-                />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">{audioFile.name}</p>
+                <p className="text-xs text-gray-400">Pré-visualização do áudio</p>
               </div>
-            )}
-          </Card>
 
-          {/* ADICIONAR CONTATO */}
-          <Card title="Adicionar Contato">
-            <div className="flex flex-col gap-4">
-              <input className="input" placeholder="Nome" value={newName} onChange={e => setNewName(e.target.value)} />
-              <input className="input" placeholder="Número" value={newNumber} onChange={e => setNewNumber(e.target.value)} />
-              <input className="input" placeholder="Tag" value={newTag} onChange={e => setNewTag(e.target.value)} />
-              <textarea className="textarea h-24" placeholder="Observações" value={newNotes} onChange={e => setNewNotes(e.target.value)} />
-              <button onClick={saveContact} className="btn-primary w-fit">Salvar Contato</button>
+              <FileAudio size={20} className="text-gray-500" />
+
+              <audio
+                ref={audioRef}
+                src={audioPreview}
+                onEnded={() => setPlaying(false)}
+              />
             </div>
-          </Card>
-        </div>
+          )}
+        </Card>
 
-        {/* CONTATOS SALVOS */}
-        <Card title="Contatos Salvos">
-          <label className="flex items-center gap-2 text-sm mb-4">
-            <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
-            Selecionar todos
-          </label>
-
-          <div className="max-h-96 overflow-y-auto space-y-2 pr-2">
-            {contacts.map((c, i) => (
-              <div key={i} className="contact-item flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  <div className="avatar">
-                    <User size={14} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">{c.name}</p>
-                    <p className="text-xs text-gray-500">{c.number}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedContacts.includes(c.number)}
-                    onChange={() => toggleSelectContact(c.number)}
-                  />
-                  <button onClick={() => deleteContact(c.number)} className="icon-btn">
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              </div>
-            ))}
+        {/* ADICIONAR CONTATO */}
+        <Card title="Adicionar Contato">
+          <div className="flex flex-col gap-4">
+            <input className="input" placeholder="Nome" value={newName} onChange={e => setNewName(e.target.value)} />
+            <input className="input" placeholder="Número" value={newNumber} onChange={e => setNewNumber(e.target.value)} />
+            <input className="input" placeholder="Tag" value={newTag} onChange={e => setNewTag(e.target.value)} />
+            <textarea className="textarea h-24" placeholder="Observações" value={newNotes} onChange={e => setNewNotes(e.target.value)} />
+            <button onClick={saveContact} className="btn-primary w-fit">Salvar Contato</button>
           </div>
-
-          <button onClick={sendAudio} className="btn-primary w-full mt-6">
-            <Send size={16} /> Enviar Áudio
-          </button>
         </Card>
       </div>
+
+      {/* CONTATOS SALVOS */}
+      <Card title="Contatos Salvos">
+        <label className="flex items-center gap-2 text-sm mb-4">
+          <input type="checkbox" checked={selectAll} onChange={toggleSelectAll} />
+          Selecionar todos
+        </label>
+
+        <div className="max-h-96 overflow-y-auto space-y-2 pr-2">
+          {contacts.map((c, i) => (
+            <div key={i} className="contact-item flex justify-between items-center">
+              <div className="flex items-center gap-3">
+                <div className="avatar">
+                  <User size={14} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium">{c.name}</p>
+                  <p className="text-xs text-gray-500">{c.number}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={selectedContacts.includes(c.number)}
+                  onChange={() => toggleSelectContact(c.number)}
+                />
+                <button onClick={() => deleteContact(c.number)} className="icon-btn">
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={sendAudio} className="btn-primary w-full mt-6">
+          <Send size={16} /> Enviar Áudio
+        </button>
+      </Card>
     </div>
   );
 }
