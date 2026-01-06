@@ -27,11 +27,11 @@ export default function AudiosPage() {
   const [chartData, setChartData] = useState([]);
 
   const audioRef = useRef(null);
-  const API = "http://localhost:3000/api/dashboard";
+  const API = "https://studdy-8yb8.onrender.com/api/dashboard";
 
   /* ===== CONTATOS ===== */
   useEffect(() => {
-    fetch("http://localhost:3001/contacts")
+    fetch("https://studdy-8yb8.onrender.com/contacts")
       .then(res => res.json())
       .then(setContacts)
       .catch(() => setContacts([]));
@@ -87,7 +87,7 @@ export default function AudiosPage() {
   const saveContact = () => {
     if (!newName || !newNumber) return alert("Preencha nome e número");
 
-    fetch("http://localhost:3001/contacts", {
+    fetch("https://studdy-8yb8.onrender.com/contacts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -110,7 +110,7 @@ export default function AudiosPage() {
   const deleteContact = async number => {
     if (!confirm("Remover contato?")) return;
 
-    await fetch(`http://localhost:3001/contacts/${number}`, {
+    await fetch(`https://studdy-8yb8.onrender.com/contacts/${number}`, {
       method: "DELETE",
     });
 
@@ -139,7 +139,7 @@ export default function AudiosPage() {
       fd.append("number", number);
       fd.append("audio", audioFile);
 
-      await fetch("http://localhost:3001/wa/send-audio", {
+      await fetch("https://studdy-8yb8.onrender.com/wa/send-audio", {
         method: "POST",
         body: fd,
       });
